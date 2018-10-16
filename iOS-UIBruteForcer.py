@@ -51,7 +51,7 @@ try:
     print colored('[*] Reading the following file(s): %s\n' %(', '.join(FILE_PATHS)), 'blue')
     for p in FILE_PATHS:
         FILE_CONTE.append(get_file(p))
-    script = session.create_script(get_file('ag-cc-enumeration/ag-cc-enumeration.js'))
+    script = session.create_script(get_file('branch-account-enumeration/branch-account-enumeration.js'))
     script.on('message', default_callback)
     script.load()
     script.post({'type':'start', 'list':FILE_CONTE})
