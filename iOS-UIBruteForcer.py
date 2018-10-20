@@ -27,10 +27,13 @@ def default_callback(message, data):
             print colored('[-] ' + msg.split('|')[1], 'red')
         elif 'done|' in msg:
             print colored('\n[*] DONE', 'blue')
+        elif 'warn|' in msg:
+            print colored('[ERROR] ' + msg.split('|')[1], 'red')
         else:
             print colored(msg, 'blue')
     elif message['type'] == 'error':
         err = message['stack']
+        print colored(err, 'red')
 
 # INIT ####
 print colored('iOS UI Brute Forcer [v1.0]\n', 'yellow', attrs=['bold'])
@@ -40,7 +43,7 @@ try:
         TARGET_APP = int(TARGET_APP)
     FILE_PATHS = sys.argv[2].decode('utf-8').split(',')
 except:
-    print colored('[USAGE] python iOS-UIBruteForcer.py <IOS_APP_NAME_OR_PID> <FILE1,FILE2>', 'blue')
+    print '[USAGE] python iOS-UIBruteForcer.py <IOS_APP_NAME_OR_PID> <WORDLIST#1,WORDLIST#2...>'
     sys.exit(1)
 
 # FRIDA MAIN ####
@@ -51,7 +54,7 @@ try:
     print colored('[*] Reading the following file(s): %s\n' %(', '.join(FILE_PATHS)), 'blue')
     for p in FILE_PATHS:
         FILE_CONTE.append(get_file(p))
-    script = session.create_script(get_file('branch-account-enumeration/branch-account-enumeration.js'))
+    script = session.create_script(get_file('simple-bruteforce-automation.js'))
     script.on('message', default_callback)
     script.load()
     script.post({'type':'start', 'list':FILE_CONTE})

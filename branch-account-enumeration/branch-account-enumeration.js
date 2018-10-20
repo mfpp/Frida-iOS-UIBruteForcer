@@ -67,7 +67,7 @@ recv('start', function onMessage(msg) {
 	/* == Brute-forcing ==================================================== */
 
 	if (field_0 && field_1 && goButtn) {
-		/* getting dictionaries [dict_0, dict_1] */
+		/* getting wordlists [dict_0, dict_1] */
 		var inputList = msg.list;
 		var dict_0 = inputList[0].trim().split('\n');
 		var dict_1 = inputList[1].trim().split('\n');
