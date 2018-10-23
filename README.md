@@ -4,8 +4,9 @@ Simple tool to automate brute forcing tasks against iOS apps, using [Frida](http
 
 ## Features
 
-- [x] General multiple fields brute force;
-- [ ] Virtual keyboard brute force [working].
+- [x] General UIView brute force;
+- [ ] General UIWebView brute force [working];
+- [ ] UIView virtual keyboard brute force [working].
 
 ## Usage
 
