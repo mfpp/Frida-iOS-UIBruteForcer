@@ -11,7 +11,7 @@ Simple tool to automate brute forcing tasks against iOS apps, using [Frida](http
 
 1. First, connect an iOS device (with Frida installed) through USB;
 2. Define your own match-replace placeholders in the **Config** section of the javascript file;
-3. Define your **success conditions' function** in the **Config** section of the javascript file;
+3. Define your **success conditions function** in the **Config** section of the javascript file;
 4. Open the target app and type the placeholders you chose (at step 2) into the corresponding fields;
 5. Finaly, run the python script with your wordlist files, as shown below:
 ```
