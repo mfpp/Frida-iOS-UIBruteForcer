@@ -5,22 +5,29 @@ recv('start', function onMessage(msg) {
     /* == Config =========================================================== */
 
     /* placeholders to match [textFields in order] and actionButton */
-	var fieldsToMatch = ['2222']; // ['2222','22222-2']; ['2222'] ...
+	var fieldsToMatch = ['2222'];   // ['2222','22222-2']; ['2222'] ...
     var goButtnToMatch = 'PRÓXIMO'; // 'ok'; 'go'; 'login'; 'enter' ...
-
-    /* delay to check the success */
-	var sleep = 12;
 
     /* success conditions */
 	function checkSuccess(attemptArray) {
-		ObjC.classes.NSThread.sleepForTimeInterval_(sleep);
+        /* waiting some time before checking success */
+        ObjC.classes.NSThread.sleepForTimeInterval_(10);
 
+        /* getting current window as text */
 		var viewStr = ObjC.classes.UIWindow.keyWindow().recursiveDescription().toString();
-		var success = true;
-
+        
+        /* checkin success -> searching for a word which indicates a failure attempt */
+        var success = true;
 		if (viewStr.indexOf('inválida') !== -1)
-			success = false;
+            success = false;
+        
+        /* loading previous ViewController using the main thread */
+        var navi = ObjC.chooseSync(ObjC.classes.UINavigationController);
+        ObjC.schedule(ObjC.mainQueue, function () {
+            navi[0].popViewControllerAnimated_(true);
+        });
 
+        /* returning the result */
 		return (success + '|' + attemptArray.toString());
 	}
 
@@ -46,9 +53,9 @@ recv('start', function onMessage(msg) {
                     if (fieldsFound[j] == undefined) {
                         fieldsFound[j] = fd;
                         matchCounter++;
-                        send('[*] Match found for field#' + j);
+                        send('[*] Match found for field #' + j);
                     } else {
-                        send('[*] Double match found for field#' + j + '! Automation may fail\n');
+                        send('[*] Double match found for field #' + j + '! Automation may fail\n');
                     }
                 }
             }
@@ -100,7 +107,7 @@ recv('start', function onMessage(msg) {
 
         for (var i = 0; i < inputs.length; i++) {
             var attemptValues = inputs[i];
-            /* altering UIKit values using the main thread (https://github.com/frida/frida/issues/664) */
+            /* altering UIKit values using the main thread */
             ObjC.schedule(ObjC.mainQueue, function () {
                 for (var j = 0; j < fieldsFound.length; j++) {
                     fieldsFound[j].setText_(attemptValues[j]);
